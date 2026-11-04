@@ -1,0 +1,17 @@
+version: 2
+
+models:
+  - name: stg_prices
+    columns:
+      - name: price_key
+        data_tests: [unique, not_null]
+      - name: id
+        data_tests: [not_null]
+      - name: current_price
+        data_tests: [not_null]
+  - name: daily_prices
+    columns:
+      - name: daily_key
+        data_tests: [unique, not_null]
+      - name: close_price
+        data_tests: [not_null]

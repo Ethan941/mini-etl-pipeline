@@ -1,0 +1,7 @@
+# À lancer depuis la racine du dépôt : le chemin DuckDB est relatif à la racine.
+crypto:
+  target: dev
+  outputs:
+    dev:
+      type: duckdb
+      path: "{{ env_var('DUCKDB_PATH', 'data/crypto.duckdb') }}"
