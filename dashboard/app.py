@@ -85,7 +85,7 @@ html, body, [class*="css"], .stApp { font-family: 'Inter', sans-serif; }
   radial-gradient(700px 600px at 50% 110%, rgba(255,92,154,.16), transparent 60%), #0B0B1A;
   background-size: 140% 140%; animation: drift 18s ease-in-out infinite alternate; }
 @keyframes drift { to { background-position: 12% 8%, 90% 0%, 40% 100%, 0 0; } }
-#MainMenu, footer { visibility: hidden; } header { background: transparent; }
+#MainMenu, footer, .stAppDeployButton { visibility: hidden; } header { background: transparent; }
 .block-container { padding-top: 2rem; max-width: 1250px; }
 .hero h1 { font-size: 3rem; font-weight: 800; margin: 0; letter-spacing: -1px;
   background: linear-gradient(90deg, #8B5CF6, #38BDF8, #2DE2A6, #FFB547, #FF5C9A, #8B5CF6);
@@ -204,7 +204,7 @@ def perf_chart(df, ids, col, base100, label):
     ymin, ymax = float(piv.min().min()), float(piv.max().max())
     pad = (ymax - ymin) * 0.06 or 1
     fig.update_layout(
-        height=430, hovermode="x unified", margin=dict(l=10, r=10, t=30, b=10),
+        height=430, hovermode="x unified", margin=dict(l=10, r=40, t=30, b=10),
         xaxis=dict(range=[piv.index[0], piv.index[-1]], showgrid=False),
         yaxis=dict(range=[ymin - pad, ymax + pad], gridcolor="rgba(255,255,255,.07)",
                    title="Base 100" if base100 else label),
