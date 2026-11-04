@@ -45,6 +45,15 @@ set -a && . ./.env && set +a
 .venv/bin/pytest
 ```
 
+## Dashboard
+
+```bash
+.venv/bin/pip install -r requirements-dashboard.txt
+.venv/bin/streamlit run dashboard/app.py
+```
+
+Le mode démo (barre latérale) simule 60 jours d'historique tant que le pipeline n'a pas accumulé assez de données réelles.
+
 ## Structure
 
 ```
