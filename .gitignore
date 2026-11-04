@@ -11,3 +11,4 @@ logs/
 # base locale (le workflow GitHub Actions publie ses propres résultats)
 *.duckdb
 *.duckdb.wal
+.user.yml
