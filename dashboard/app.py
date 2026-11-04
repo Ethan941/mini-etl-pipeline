@@ -226,8 +226,11 @@ def change_chart(df, ids):
         marker=dict(color=[GREEN if v >= 0 else RED for v in ch], cornerradius=8),
         text=[f"{v:+.2f} %" for v in ch], textposition="outside", cliponaxis=False,
         hovertemplate="%{y} : %{x:+.2f} %<extra></extra>"))
-    fig.update_layout(height=360, margin=dict(l=10, r=60, t=20, b=10), xaxis=dict(showgrid=False, zeroline=True,
-                      zerolinecolor="rgba(255,255,255,.3)"), yaxis=dict(showgrid=False))
+    lim = max(float(ch.abs().max()), 1) * 1.45  # marge pour que les libellés ne touchent pas les noms
+    fig.update_layout(height=360, margin=dict(l=10, r=20, t=20, b=10),
+                      xaxis=dict(range=[-lim, lim], showgrid=False, zeroline=True,
+                                 zerolinecolor="rgba(255,255,255,.3)", ticksuffix=" %"),
+                      yaxis=dict(showgrid=False, automargin=True))
     return fig
 
 
@@ -241,12 +244,13 @@ def bubble_chart(df, ids):
     fig = px.scatter(d, x="total_volume", y="market_cap", size="market_cap", color="nom", animation_frame="frame",
                      log_x=True, log_y=True, size_max=60, hover_name="nom",
                      color_discrete_map={c.capitalize(): color(c, i) for i, c in enumerate(ids)},
-                     range_x=[d["total_volume"].min() * .6, d["total_volume"].max() * 1.6],
-                     range_y=[d["market_cap"].min() * .6, d["market_cap"].max() * 1.6],
+                     range_x=[d["total_volume"].min() * .4, d["total_volume"].max() * 3.5],
+                     range_y=[d["market_cap"].min() * .4, d["market_cap"].max() * 4],
                      labels={"total_volume": "Volume (€)", "market_cap": "Capitalisation (€)", "nom": ""})
     fig.update_traces(marker=dict(line=dict(width=1.5, color="rgba(255,255,255,.5)"), opacity=.85))
     fig.update_layout(height=430, margin=dict(l=10, r=10, t=20, b=10), legend=dict(orientation="h", y=1.1),
-                      xaxis=dict(gridcolor="rgba(255,255,255,.07)"), yaxis=dict(gridcolor="rgba(255,255,255,.07)"))
+                      xaxis=dict(gridcolor="rgba(255,255,255,.07)", dtick=1),  # 1 graduation par puissance de 10
+                      yaxis=dict(gridcolor="rgba(255,255,255,.07)", dtick=1))
     return fig
 
 
@@ -288,10 +292,10 @@ def main():
     left, right = st.columns(2)
     with left:
         st.markdown("### Variation 24 h")
-        st.plotly_chart(change_chart(df, sel), width="stretch")
+        st.plotly_chart(change_chart(df, sel), width="stretch", config={"displayModeBar": False})
     with right:
         st.markdown("### Volume × capitalisation")
-        st.plotly_chart(bubble_chart(df, sel), width="stretch")
+        st.plotly_chart(bubble_chart(df, sel), width="stretch", config={"displayModeBar": False})
     with st.expander("Données brutes"):
         st.dataframe(df.sort_values("ts", ascending=False).head(200), width="stretch")
 
